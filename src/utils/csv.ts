@@ -1,4 +1,5 @@
 import type { Category, Transaction, TransactionType, Wallet } from "../types";
+import { parseCalendarDate } from "./calendar";
 
 type CsvRow = Record<string, string>;
 
@@ -62,8 +63,7 @@ const normalizeText = (value: unknown): string => String(value || "").trim();
 const normalizeName = (value: unknown): string => normalizeText(value).toLocaleLowerCase();
 
 const isValidDate = (value: string): boolean => {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-  return !Number.isNaN(new Date(`${value}T00:00:00`).getTime());
+  return parseCalendarDate(value) !== null;
 };
 
 export const exportTransactionsToCsv = (

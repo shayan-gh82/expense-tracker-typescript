@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { nextReminderDate as getNextReminderDate } from "../utils/calendar";
 import {
   DEMO_USER_ID,
   defaultReminders,
@@ -7,17 +8,6 @@ import {
   defaultWallets,
   initialFinanceState,
 } from "../data/defaultData";
-
-const getNextReminderDate = (date, frequency, fallbackDate) => {
-  const next = new Date(date);
-  if (Number.isNaN(next.getTime())) return fallbackDate;
-
-  if (frequency === "weekly") next.setDate(next.getDate() + 7);
-  if (frequency === "monthly") next.setMonth(next.getMonth() + 1);
-  if (frequency === "yearly") next.setFullYear(next.getFullYear() + 1);
-
-  return next.toISOString().split("T")[0];
-};
 
 const financeSlice = createSlice({
   name: "finance",

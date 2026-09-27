@@ -6,7 +6,7 @@ import EmptyState from "../ui/EmptyState";
 const RecentTransactions = ({ onEdit }) => {
   const { transactions } = useFinance();
   const { t } = useI18n();
-  const recentTransactions = transactions.slice(0, 5);
+  const recentTransactions = [...transactions].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
 
   return (
     <div className="glass-card p-6">

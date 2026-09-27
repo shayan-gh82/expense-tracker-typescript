@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { toLocalInputDate } from "../utils/calendar";
 import toast from "react-hot-toast";
 import { useUI } from "../context/UIContext";
 import { translate } from "../i18n/translations";
@@ -50,7 +51,7 @@ import {
 } from "../store/selectors";
 
 const nowIso = () => new Date().toISOString();
-const todayIso = () => new Date().toISOString().split("T")[0];
+const todayIso = () => toLocalInputDate();
 
 const createStarterWallet = (userId) => ({
   id: createId("wallet"),

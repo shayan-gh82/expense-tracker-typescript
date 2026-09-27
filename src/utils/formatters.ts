@@ -1,3 +1,5 @@
+import { parseCalendarDate, toLocalInputDate } from "./calendar";
+
 const getCurrentLocale = (): string => {
   if (typeof document !== "undefined" && document.documentElement.lang === "fa") return "fa-IR";
   return "en-US";
@@ -32,7 +34,9 @@ export const formatCompactCurrency = (amount: number | string, currency = "IRR")
 
 export const formatDate = (date: Date | string, locale = getCurrentLocale()): string => {
   if (!date) return "-";
-  const parsedDate = new Date(date);
+  const parsedDate = typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)
+    ? parseCalendarDate(date) ?? new Date(NaN)
+    : new Date(date);
   if (Number.isNaN(parsedDate.getTime())) return "-";
 
   return new Intl.DateTimeFormat(locale, {
@@ -43,9 +47,9 @@ export const formatDate = (date: Date | string, locale = getCurrentLocale()): st
 };
 
 export const toInputDate = (date: Date | string = new Date()): string => {
+  if (typeof date === "string" && parseCalendarDate(date)) return date;
   const current = new Date(date);
-  if (Number.isNaN(current.getTime())) return new Date().toISOString().split("T")[0];
-  return current.toISOString().split("T")[0];
+  return toLocalInputDate(current);
 };
 
 export const capitalize = (value: string): string => {
